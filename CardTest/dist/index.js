@@ -1,15 +1,20 @@
 import Deck from "./Components/Deck.js";
 import Card from "./Components/Card.js";
+import ScoreManager from "./Components/ScoreManager.js";
 let playerDeck = new Deck();
 let playerInHand = new Deck();
 let playerDiscarded = new Deck();
 let otherDeck = new Deck();
 let otherInHand = new Deck();
 let otherDiscarded = new Deck();
+let PlayerScore = [[], [], []];
+let scoreManager = new ScoreManager();
 for (let i = 0; i < 3; i++) {
     for (let j = 3; j <= 12; j++) {
-        playerDeck.addCard(new Card(i, j));
-        otherDeck.addCard(new Card(i, j));
+        for (let k = 0; k <= 6; k++) {
+            playerDeck.addCard(new Card(i, j, k));
+            otherDeck.addCard(new Card(i, j, k));
+        }
     }
 }
 playerDeck.shuffle();
@@ -60,6 +65,7 @@ function Turn(cardIdx) {
     }
     console.log("Player card: " + (thisPlayerChoice === null || thisPlayerChoice === void 0 ? void 0 : thisPlayerChoice.type) + (thisPlayerChoice === null || thisPlayerChoice === void 0 ? void 0 : thisPlayerChoice.value));
     console.log("Other card: " + (thisOtherChoice === null || thisOtherChoice === void 0 ? void 0 : thisOtherChoice.type) + (thisOtherChoice === null || thisOtherChoice === void 0 ? void 0 : thisOtherChoice.value));
+    scoreManager.AddCard(PlayerScore, thisPlayerChoice);
     console.log("Drawing new card...");
     playerDiscarded.addCard(thisPlayerChoice);
     otherDiscarded.addCard(thisOtherChoice);

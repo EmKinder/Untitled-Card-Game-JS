@@ -1,5 +1,6 @@
 import Deck from "./Components/Deck.js";
 import Card from "./Components/Card.js"
+import ScoreManager from "./Components/ScoreManager.js";
 
 let playerDeck = new Deck(); 
 let playerInHand = new Deck();
@@ -9,10 +10,16 @@ let otherDeck = new Deck();
 let otherInHand = new Deck(); 
 let otherDiscarded = new Deck();
 
+let PlayerScore = [[], [], []];
+
+let scoreManager = new ScoreManager();  
+
 for(let i = 0; i < 3; i++){
     for(let j = 3; j <= 12; j++){
-        playerDeck.addCard(new Card(i, j));
-        otherDeck.addCard(new Card(i, j));
+        for(let k = 0; k <= 6; k++){
+            playerDeck.addCard(new Card(i, j, k));
+            otherDeck.addCard(new Card(i, j, k));
+        }
     }
 }
 
@@ -70,6 +77,8 @@ function Turn(cardIdx: number){
         
     console.log("Player card: " + thisPlayerChoice?.type + thisPlayerChoice?.value);
     console.log("Other card: " + thisOtherChoice?.type + thisOtherChoice?.value);
+
+    scoreManager.AddCard(PlayerScore, thisPlayerChoice!);
 
     console.log("Drawing new card...");
 
